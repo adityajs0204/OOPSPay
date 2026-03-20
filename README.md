@@ -194,13 +194,42 @@ Decision engine evaluates all signals
 
 ## ⚠️ Edge Case Handling
 
-| Scenario | How It's Handled |
-|---|---|
-| Bad/missing data | Multi-source validation + backup APIs |
-| No actual impact | Activity threshold check (≥ 70% normal = no payout) |
-| Short disruptions | Minimum duration filters per disruption type |
-| Duplicate events | Unique event IDs + policy time validation |
-| Fraudulent claims | Historical behavior analysis + anomaly detection |
+### 🗄️ Data-Related Issues
+
+| Scenario | Problem | How It's Handled |
+|---|---|---|
+| **Incorrect Weather Data** | One source reports wrong information | Multi-source validation — at least 2 of 3 sources must agree before accepting an event |
+| **Location Mismatch** | Disruption in one zone, not another | City divided into small zones; conditions validated specific to each rider's zone |
+| **API Failure / Unavailability** | Data source goes down | Cached data used as fallback; backup APIs queried automatically |
+
+---
+
+### 🚫 No Real Impact Cases
+
+| Scenario | Problem | How It's Handled |
+|---|---|---|
+| **Rider Continues Working Normally** | Disruption exists but rider is unaffected | Activity threshold check — if deliveries ≥ 70% of normal → no payout |
+| **Short Duration Disruption** | Brief event that doesn't meaningfully affect income | Minimum duration filters applied per disruption type (e.g., rain must last ≥ 2 hrs) |
+
+---
+
+### ⚙️ System-Level Issues
+
+| Scenario | Problem | How It's Handled |
+|---|---|---|
+| **Duplicate Payouts** | Same event processed more than once | Unique event ID assigned; duplicate processing blocked |
+| **Late Policy Activation** | User activates policy after disruption starts | Policy start time validated against event timestamp; backdating not allowed |
+
+---
+
+### 🕵️ Fraud Cases
+
+| Scenario | Problem | How It's Handled |
+|---|---|---|
+| **False Claims** | User claims payout without real income loss | Historical behavior compared; activity data cross-validated |
+| **GPS Spoofing** | Fake location to appear in disruption zone | Movement analysis detects unrealistic location jumps; flagged as suspicious |
+| **No Deliveries But Active Location** | Moving without completing any orders | Activity verification: movement with zero deliveries → suspicious |
+| **Coordinated Group Fraud** | Multiple users fake behaviour simultaneously | Group pattern detection identifies mass simultaneous anomalies |
 
 ---
 
