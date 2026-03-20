@@ -7,7 +7,6 @@
 [![Status](https://img.shields.io/badge/Status-Active-brightgreen?style=for-the-badge)](/)
 [![Stack](https://img.shields.io/badge/Stack-React%20%7C%20Node.js%20%7C%20Python-blue?style=for-the-badge)](/)
 [![Database](https://img.shields.io/badge/Database-Firebase-FFCA28?style=for-the-badge&logo=firebase&logoColor=black)](/)
-[![License](https://img.shields.io/badge/License-MIT-yellow?style=for-the-badge)](/)
 
 > **"An AI-powered parametric insurance platform that automatically compensates delivery partners for income loss caused by real-world disruptions — using real-time data and intelligent validation."**
 
@@ -77,65 +76,47 @@ GigShield is an **AI-powered parametric insurance system** that:
 
 ## 🏗️ System Architecture
 
-GigShield is built on a **microservices + event-driven** architecture using Redis queues, RabbitMQ, and Pub/Sub messaging to ensure high throughput and zero-downtime payouts.
+GigShield follows a clean **client-server architecture** connecting a React frontend to a Node.js backend, Firebase database, and a Python ML service for intelligent validation.
 
 ```
-╔══════════════════════════════════════════════════════════════════════════╗
-║                       CORE SERVICE PIPELINE                             ║
-╠══════════════════════════════════════════════════════════════════════════╣
-║                                                                          ║
-║   ┌──────────┐    ┌─────────────────────┐  [Redis Queue]                ║
-║   │   Auth   │───▶│   Policy Service    │══════════════▶┐               ║
-║   │ Service  │    │  (Plans/Billings/   │               │               ║
-║   └──────────┘    │       Data)         │               ▼               ║
-║                   └─────────────────────┘    ┌──────────────────┐      ║
-║                                              │  Payment Service │      ║
-║   ┌───────────────────┐                      │    (PayPal)      │      ║
-║   │  Admin Dashboard  │                      └────────┬─────────┘      ║
-║   │  (Manual Checks)  │◀─────────────────────────────┤                 ║
-║   └───────────────────┘                               │                ║
-║                                              ┌────────▼─────────┐      ║
-║                                              │  Notification    │      ║
-║                                              │    Service       │      ║
-║                                              └────────┬─────────┘      ║
-║                                                       │                ║
-║                                              ┌────────▼─────────┐      ║
-║                                              │ Address Polling  │      ║
-║                                              │    Service       │      ║
-║                                              └──────────────────┘      ║
-╚══════════════════════════════════════════════════════════════════════════╝
-
-╔══════════════════════════════════════════════════════════════════════════╗
-║                    ML MODELS & MESSAGE BROKER                           ║
-╠══════════════════════════════════════════════════════════════════════════╣
-║                                                                          ║
-║   ┌──────────────────────────────────┐  ┌──────────────────────────┐   ║
-║   │           ML Models              │  │       RabbitMQ           │   ║
-║   │  ┌────────────┐ ┌─────────────┐ │  │ ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓ │   ║
-║   │  │  News API  │ │ Weather API │ │  │ ▓ Message Queue Broker  ▓ │   ║
-║   │  └────────────┘ └─────────────┘ │  │ ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓ │   ║
-║   └──────────────────────────────────┘  └──────────────────────────┘   ║
-║                                                       │                 ║
-║   [Redis Cache] ◀─────────────────────────────────────┘                 ║
-║   (Hot Data / Session / Rate Limits)                                    ║
-╚══════════════════════════════════════════════════════════════════════════╝
-
+┌─────────────────────────────────────────────────────────┐
+│                    DATA SOURCES                         │
+│     🌦 Weather API    📰 News API    📱 Rider App        │
+└──────────────────────┬──────────────────────────────────┘
+                       │
+                       ▼
+┌─────────────────────────────────────────────────────────┐
+│               NODE.JS BACKEND (API Server)              │
+│     Auth  •  Policy Management  •  Payout Logic         │
+└──────────────────────┬──────────────────────────────────┘
+                       │
+          ┌────────────┴────────────┐
+          ▼                         ▼
+┌──────────────────┐     ┌──────────────────────────────┐
+│     Firebase     │     │    Python ML Service         │
+│  (Firestore +    │     │  Disruption Validation  +    │
+│   Auth + DB)     │     │  Fraud Detection Models      │
+└──────────────────┘     └──────────────────────────────┘
+          │                         │
+          └────────────┬────────────┘
+                       ▼
+┌─────────────────────────────────────────────────────────┐
+│                  PAYMENT & ALERTS                       │
+│          Razorpay Payout  •  Notification Service       │
+└─────────────────────────────────────────────────────────┘
 ```
 
-### 📡 Service Communication Summary
+### 📡 Services Overview
 
 | Component | Role |
 |---|---|
-| **Auth Service** | JWT-based authentication, session management |
-| **Policy Service** | Plans, billing, and user data management |
-| **Payment Service** | PayPal-powered payout execution |
+| **React Frontend** | Rider dashboard, policy management, payout history |
+| **Node.js Backend** | REST API, auth, policy & billing logic |
+| **Firebase** | User data, policies, real-time updates |
+| **Python ML Service** | Disruption validation via News API & Weather API |
+| **Payment Service** | Razorpay-powered automatic payout execution |
 | **Notification Service** | Rider alerts and status updates |
-| **Address Polling Service** | Real-time location & GPS validation |
 | **Admin Dashboard** | Manual review and override for edge cases |
-| **Redis Queue** | High-speed inbound event buffering |
-| **Redis Cache** | Hot data caching, session store, rate limiting |
-| **RabbitMQ** | Reliable async message broker across services |
-| **ML Models** | Disruption validation via News API & Weather API |
 
 ---
 
@@ -185,10 +166,6 @@ GigShield is built on a **microservices + event-driven** architecture using Redi
 <td>Firebase (Firestore + Realtime DB)</td>
 </tr>
 <tr>
-<td><b>⚡ Queue & Events</b></td>
-<td>Redis (caching + queues), RabbitMQ</td>
-</tr>
-<tr>
 <td><b>🌍 External APIs</b></td>
 <td>OpenWeatherMap, AQI APIs, News APIs</td>
 </tr>
@@ -235,7 +212,7 @@ Decision engine evaluates all signals
 | 🤖 AI Risk Assessment | ML models for fraud detection and income estimation |
 | 🔒 Fraud-Resistant | Multi-layer validation and GPS anomaly detection |
 | 📅 Subscription Model | Simple weekly policy for gig workers |
-| 📈 Scalable | Event-driven architecture built for high throughput |
+| 📈 Scalable | Modular services built to handle real-world load |
 
 ---
 
@@ -243,7 +220,7 @@ Decision engine evaluates all signals
 
 | Scenario | How It's Handled |
 |---|---|
-| Bad/missing data | Multi-source validation + backup APIs + caching |
+| Bad/missing data | Multi-source validation + backup APIs |
 | No actual impact | Activity threshold check (≥ 70% normal = no payout) |
 | Short disruptions | Minimum duration filters per disruption type |
 | Duplicate events | Unique event IDs + policy time validation |
@@ -261,6 +238,6 @@ By combining real-time data intelligence with AI-driven validation, it ensures t
 
 ---
 
-*Built with ❤️ to protect the backbone of the gig economy.*
+
 
 </div>
