@@ -204,6 +204,14 @@ Automatic payout triggered
 
 ---
 
+## System Reliability
+
+- The system uses **multiple independent APIs (3 sources)**, reducing dependency on any single data provider  
+- Even if one API fails or returns incorrect data, the system continues operating using the remaining sources  
+- This design avoids single-point failures and ensures consistent system availability  
+
+---
+
 ### No Real Impact Cases
 
 | Scenario | Problem | How It's Handled |
