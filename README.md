@@ -74,7 +74,7 @@ GigShield is an **AI-powered parametric insurance system** that:
 
 ---
 
-## 🏗️ System Architecture
+## 🏗️ Workflow
 
 <div align="center">
 
