@@ -1,321 +1,266 @@
-# 🚀 GigShield: AI-Powered Income Protection for Delivery Partners
+<div align="center">
 
-## 📌 Problem Overview
+# 🛡️ GigShield
 
-Food delivery partners depend entirely on their ability to move across the city and complete deliveries. Their income is not fixed and varies based on the number of deliveries completed.
+### AI-Powered Income Protection for Delivery Partners
 
-In real-world conditions, external factors significantly impact their ability to work. These factors either:
+[![Status](https://img.shields.io/badge/Status-Active-brightgreen?style=for-the-badge)](/)
+[![Stack](https://img.shields.io/badge/Stack-React%20%7C%20Node.js%20%7C%20Python-blue?style=for-the-badge)](/)
+[![Database](https://img.shields.io/badge/Database-Firebase-FFCA28?style=for-the-badge&logo=firebase&logoColor=black)](/)
+[![License](https://img.shields.io/badge/License-MIT-yellow?style=for-the-badge)](/)
 
-- Reduce the number of available orders  
-- Make travel difficult or unsafe  
+> **"An AI-powered parametric insurance platform that automatically compensates delivery partners for income loss caused by real-world disruptions — using real-time data and intelligent validation."**
 
-As a result, delivery partners experience income loss despite being willing to work.
-
----
-
-## 🌍 1. Key Challenges
-
-### 1.1 Environmental Factors
-
-Environmental conditions directly affect outdoor work:
-
-- Heavy rainfall → reduced visibility and safety  
-- Flooding → blocked roads  
-- Extreme heat → limited working hours  
-- High pollution → unsafe conditions  
-
-These factors slow down or completely stop deliveries.
+</div>
 
 ---
 
-### 1.2 Administrative & External Restrictions
+## 📌 The Problem
 
-- Curfews  
-- Zone closures  
-- Emergency situations  
+Food delivery partners earn entirely based on deliveries completed — no fixed salary, no safety net. Real-world conditions can wipe out their income overnight.
 
-These restrict movement and prevent delivery operations.
+<table>
+<tr>
+<td width="50%">
 
----
+### 🌧️ Environmental Factors
+- Heavy rainfall → reduced visibility
+- Flooding → blocked roads
+- Extreme heat → limited working hours
+- High pollution → unsafe conditions
 
-### 1.3 Resulting Impact
+</td>
+<td width="50%">
 
-- Reduced number of orders  
-- Increased delivery time  
-- Decreased working hours  
+### 🚫 Administrative Restrictions
+- City-wide curfews
+- Zone closures
+- Emergency situations
+- Protest blockades
 
-➡️ Leads to direct income loss  
+</td>
+</tr>
+</table>
 
-❗ **Current Gap:** No system exists to automatically compensate this loss.
+**Result:** Reduced orders → Increased delivery time → **Direct income loss**
 
----
-
-## 💡 2. Solution Approach
-
-We propose an **AI-powered parametric insurance system** that:
-
-1. Detects external disruptions  
-2. Validates their authenticity  
-3. Verifies actual impact on rider activity  
-4. Automatically triggers payouts  
-
-✔ No manual claims required  
-✔ Fully automated decision-making  
+❗ *No system currently exists to automatically compensate for these losses.*
 
 ---
 
-## ⚡ 3. Disruption Detection
+## 💡 Our Solution
 
-### 3.1 Rainfall Conditions
-- Rainfall ≥ 50 mm/hour  
-- Duration ≥ 2 hours  
+GigShield is an **AI-powered parametric insurance system** that:
 
-➡️ Mark as disruption  
+| Step | Action |
+|------|--------|
+| 1️⃣ | Detects real-world disruptions via live data feeds |
+| 2️⃣ | Validates authenticity across multiple trusted sources |
+| 3️⃣ | Verifies actual impact on individual rider activity |
+| 4️⃣ | **Automatically triggers payouts** — zero manual claims |
 
----
-
-### 3.2 Flooding & Waterlogging
-- Flood alert active  
-OR  
-- Traffic speed < 30% of normal  
-
-➡️ Mark as disruption  
+✅ No paperwork &nbsp;&nbsp; ✅ No delays &nbsp;&nbsp; ✅ Fully automated
 
 ---
 
-### 3.3 Extreme Heat
-- Temperature ≥ 42°C  
-- Duration ≥ 3 hours  
+## ⚡ Disruption Detection Rules
 
-➡️ Mark as disruption  
-
----
-
-### 3.4 Pollution
-- AQI ≥ 300  
-- Duration ≥ 4 hours  
-
-➡️ Mark as disruption  
+| Disruption Type | Trigger Condition |
+|---|---|
+| 🌧️ **Heavy Rainfall** | Rainfall ≥ 50 mm/hr for ≥ 2 hours |
+| 🌊 **Flooding** | Flood alert active OR traffic speed < 30% of normal |
+| 🌡️ **Extreme Heat** | Temperature ≥ 42°C for ≥ 3 hours |
+| 💨 **Air Pollution** | AQI ≥ 300 for ≥ 4 hours |
+| 🚷 **Curfew / Emergency** | Government-issued alerts active |
 
 ---
 
-### 3.5 Restrictions
-- Curfews / emergency alerts  
+## 🏗️ System Architecture
 
-➡️ Mark as disruption  
+GigShield is built on a **microservices + event-driven** architecture using Redis queues, RabbitMQ, and Pub/Sub messaging to ensure high throughput and zero-downtime payouts.
 
----
+```
+╔══════════════════════════════════════════════════════════════════════════╗
+║                       CORE SERVICE PIPELINE                             ║
+╠══════════════════════════════════════════════════════════════════════════╣
+║                                                                          ║
+║   ┌──────────┐    ┌─────────────────────┐  [Redis Queue]                ║
+║   │   Auth   │───▶│   Policy Service    │══════════════▶┐               ║
+║   │ Service  │    │  (Plans/Billings/   │               │               ║
+║   └──────────┘    │       Data)         │               ▼               ║
+║                   └─────────────────────┘    ┌──────────────────┐      ║
+║                                              │  Payment Service │      ║
+║   ┌───────────────────┐                      │    (PayPal)      │      ║
+║   │  Admin Dashboard  │                      └────────┬─────────┘      ║
+║   │  (Manual Checks)  │◀─────────────────────────────┤                 ║
+║   └───────────────────┘                               │                ║
+║                                              ┌────────▼─────────┐      ║
+║                                              │  Notification    │      ║
+║                                              │    Service       │      ║
+║                                              └────────┬─────────┘      ║
+║                                                       │                ║
+║                                              ┌────────▼─────────┐      ║
+║                                              │ Address Polling  │      ║
+║                                              │    Service       │      ║
+║                                              └──────────────────┘      ║
+╚══════════════════════════════════════════════════════════════════════════╝
 
-## 🏗️ 4. System Architecture
+╔══════════════════════════════════════════════════════════════════════════╗
+║                    ML MODELS & MESSAGE BROKER                           ║
+╠══════════════════════════════════════════════════════════════════════════╣
+║                                                                          ║
+║   ┌──────────────────────────────────┐  ┌──────────────────────────┐   ║
+║   │           ML Models              │  │       RabbitMQ           │   ║
+║   │  ┌────────────┐ ┌─────────────┐ │  │ ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓ │   ║
+║   │  │  News API  │ │ Weather API │ │  │ ▓ Message Queue Broker  ▓ │   ║
+║   │  └────────────┘ └─────────────┘ │  │ ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓ │   ║
+║   └──────────────────────────────────┘  └──────────────────────────┘   ║
+║                                                       │                 ║
+║   [Redis Cache] ◀─────────────────────────────────────┘                 ║
+║   (Hot Data / Session / Rate Limits)                                    ║
+╚══════════════════════════════════════════════════════════════════════════╝
 
-### 4.1 Data Collection
-Collects:
-- Weather data  
-- Pollution data  
-- Traffic data  
-- News alerts  
-- Delivery activity  
+```
 
----
+### 📡 Service Communication Summary
 
-### 4.2 Trigger Detection
-- Checks disruption conditions  
-- Generates potential events  
-
----
-
-### 4.3 Multi-Source Validation
-
-Process:
-- Collect data from 3 sources  
-- Convert to TRUE/FALSE  
-- If ≥ 2 sources agree → Accept  
-
-✔ Reduces false positives  
-
----
-
-### 4.4 Activity Validation
-
-Condition:
-- If deliveries ≥ 70% of normal → No payout  
-- Else → Income affected  
-
-✔ Ensures real loss  
-
----
-
-### 4.5 Fraud Detection
-- Validates user behavior  
-- Detects anomalies  
-
----
-
-### 4.6 Decision Engine
-Combines all signals for final decision.
-
----
-
-## ⚠️ 5. Edge Case Handling
-
-### Data Issues
-- Multi-source validation  
-- Zone-based validation  
-- Backup APIs & caching  
+| Component | Role |
+|---|---|
+| **Auth Service** | JWT-based authentication, session management |
+| **Policy Service** | Plans, billing, and user data management |
+| **Payment Service** | PayPal-powered payout execution |
+| **Notification Service** | Rider alerts and status updates |
+| **Address Polling Service** | Real-time location & GPS validation |
+| **Admin Dashboard** | Manual review and override for edge cases |
+| **Redis Queue** | High-speed inbound event buffering |
+| **Redis Cache** | Hot data caching, session store, rate limiting |
+| **RabbitMQ** | Reliable async message broker across services |
+| **ML Models** | Disruption validation via News API & Weather API |
 
 ---
 
-### No Impact Cases
-- Normal activity → no payout  
-- Short disruptions → ignored  
+## 🤖 Decision Engine
+
+| Signal | Weight |
+|---|---|
+| Disruption Validity | 🔴 High |
+| Activity Impact | 🔴 High |
+| Movement Consistency | 🟡 Medium |
+| Network Reliability | 🟡 Medium |
+
+**Outcomes:**
+- 🟢 **High Score** → Payout triggered immediately
+- 🟡 **Medium Score** → Flagged for additional verification
+- 🔴 **Low Score** → Claim rejected
 
 ---
 
-### System Issues
-- Unique event IDs → prevent duplicates  
-- Policy time validation  
+## 🛡️ Adversarial Defense — GPS Spoofing
+
+| Technique | What it catches |
+|---|---|
+| 🏃 Movement Analysis | Unrealistic location jumps |
+| 📦 Activity Verification | Movement with zero deliveries |
+| 👥 Group Detection | Coordinated mass fraud patterns |
 
 ---
 
-### Fraud Cases
-- Historical behavior checks  
-- Activity validation  
+## 🧰 Tech Stack
+
+<table>
+<tr>
+<td><b>🎨 Frontend</b></td>
+<td>React (Vite), Tailwind CSS</td>
+</tr>
+<tr>
+<td><b>⚙️ Backend</b></td>
+<td>Node.js, Express.js</td>
+</tr>
+<tr>
+<td><b>🤖 AI / ML</b></td>
+<td>Python, Scikit-learn, Pandas</td>
+</tr>
+<tr>
+<td><b>🗄️ Database</b></td>
+<td>Firebase (Firestore + Realtime DB)</td>
+</tr>
+<tr>
+<td><b>⚡ Queue & Events</b></td>
+<td>Redis (caching + queues), RabbitMQ</td>
+</tr>
+<tr>
+<td><b>🌍 External APIs</b></td>
+<td>OpenWeatherMap, AQI APIs, News APIs</td>
+</tr>
+<tr>
+<td><b>💳 Payments</b></td>
+<td>Razorpay (Test Mode)</td>
+</tr>
+<tr>
+<td><b>🔐 Auth</b></td>
+<td>Firebase Auth + JWT</td>
+</tr>
+</table>
 
 ---
 
-## 🛡️ 6. Adversarial Defense (GPS Spoofing)
+## 🔄 How It Works — End to End
 
-### Detection Techniques:
-
-#### Movement Analysis
-- Detect unrealistic jumps  
-
-#### Activity Verification
-- No deliveries + movement → suspicious  
-
-#### Group Detection
-- Identify coordinated fraud  
-
----
-
-## 🧠 7. Decision Engine
-
-### Signals Used:
-
-| Signal | Importance |
-|------|-----------|
-| Disruption Validity | High |
-| Activity Impact | High |
-| Movement Consistency | Medium |
-| Network Reliability | Medium |
+```
+User purchases weekly policy
+        ↓
+System monitors environment in real-time
+        ↓
+Disruption detected
+        ↓
+Multi-source validation (≥ 2/3 sources must agree)
+        ↓
+Activity impact verified (< 70% normal deliveries)
+        ↓
+Fraud checks executed
+        ↓
+Decision engine evaluates all signals
+        ↓
+💸 Automatic payout triggered
+```
 
 ---
 
-### Final Decision:
-- High score → Payout  
-- Medium → Delay & verify  
-- Low → Reject  
+## 🎯 Key Features
+
+| Feature | Description |
+|---|---|
+| ⚡ Zero-Claim Payouts | Fully automated — riders never need to file a claim |
+| 📡 Real-Time Monitoring | Continuous data streams from weather, traffic, and news |
+| 🤖 AI Risk Assessment | ML models for fraud detection and income estimation |
+| 🔒 Fraud-Resistant | Multi-layer validation and GPS anomaly detection |
+| 📅 Subscription Model | Simple weekly policy for gig workers |
+| 📈 Scalable | Event-driven architecture built for high throughput |
 
 ---
 
-## 🤖 8. Machine Learning Usage
+## ⚠️ Edge Case Handling
 
-- Income estimation  
-- Fraud detection  
-- Pattern recognition  
-- Group anomaly detection  
-
----
-
-## 🧰 9. Tech Stack
-
-### 🎨 Frontend
-- React (Vite)
-- Tailwind CSS
+| Scenario | How It's Handled |
+|---|---|
+| Bad/missing data | Multi-source validation + backup APIs + caching |
+| No actual impact | Activity threshold check (≥ 70% normal = no payout) |
+| Short disruptions | Minimum duration filters per disruption type |
+| Duplicate events | Unique event IDs + policy time validation |
+| Fraudulent claims | Historical behavior analysis + anomaly detection |
 
 ---
 
-### ⚙️ Backend
-- Node.js
-- Express.js
+<div align="center">
+
+## 🏁 Conclusion
+
+GigShield provides a **fair, automated, and scalable** safety net for gig economy workers.
+
+By combining real-time data intelligence with AI-driven validation, it ensures that delivery partners are compensated quickly and accurately — **without lifting a finger.**
 
 ---
 
-### 🧠 AI/ML Layer
-- Python
-- Scikit-learn
-- Pandas
+*Built with ❤️ to protect the backbone of the gig economy.*
 
----
-
-### 🗄️ Database
-- MongoDB (Atlas)
-
----
-
-### ⚡ Queue & Event System
-- Redis (caching + queues)
-- RabbitMQ (event-driven system)
-
----
-
-### 🌍 APIs
-- Weather API (OpenWeatherMap)
-- AQI APIs (optional)
-- News APIs (optional)
-
----
-
-### 💳 Payment
-- Razorpay (Test Mode) / Mock System
-
----
-
-### 🔐 Authentication
-- JWT
-- bcrypt
-
----
-
-## 🔄 10. System Flow
-
-1. User purchases weekly policy  
-2. System continuously monitors environment  
-3. Disruption detected  
-4. Multi-source validation applied  
-5. Activity impact verified  
-6. Fraud checks executed  
-7. Decision engine evaluates  
-8. Automatic payout triggered  
-
----
-
-## 🎯 11. Key Features
-
-✔ Fully automated claims  
-✔ Real-time disruption detection  
-✔ AI-based risk assessment  
-✔ Fraud-resistant system  
-✔ Weekly subscription model  
-✔ Scalable architecture  
-
----
-
-## 🏁 12. Conclusion
-
-This system provides a **fair, automated, and scalable solution** to protect gig workers’ income.
-
-It ensures:
-
-- Accurate disruption detection  
-- Verified income impact  
-- Fraud prevention  
-- Real-world applicability  
-
----
-
-## 💥 One-Line Pitch
-
-**“An AI-powered parametric insurance platform that automatically compensates delivery partners for income loss caused by real-world disruptions using real-time data and intelligent validation.”**
-
----
+</div>
