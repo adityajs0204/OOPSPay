@@ -1,0 +1,14 @@
+{
+  "name": "earnly",
+  "version": "1.0.0",
+  "description": "AI-Powered Income Protection for Delivery Partners",
+  "private": true,
+  "scripts": {
+    "dev:client": "cd client && npm run dev",
+    "dev:server": "cd server && npm run dev",
+    "dev:ml": "cd ml-service && python3 app.py",
+    "build": "cd client && npm run build",
+    "start:server": "cd server && npm start",
+    "install:all": "cd client && npm install && cd ../server && npm install && cd ../ml-service && pip3 install -r requirements.txt"
+  }
+}
